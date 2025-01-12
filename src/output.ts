@@ -43,6 +43,8 @@ type Clip = {
 	x2: number | undefined;
 	y1: number | undefined;
 	y2: number | undefined;
+	offsetX: number;
+	offsetY: number;
 };
 
 type UnclipOperation = {
@@ -139,6 +141,8 @@ export default class Output {
 
 					const clipVertically =
 						typeof clip?.y1 === 'number' && typeof clip?.y2 === 'number';
+					x = x - clip.offsetX;
+					y = y - clip.offsetY;
 
 					// If text is positioned outside of clipping area altogether,
 					// skip to the next operation to avoid unnecessary calculations

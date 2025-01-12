@@ -95,9 +95,9 @@ const renderNodeToOutput = (
 			renderBorder(x, y, node, output);
 
 			const clipHorizontally =
-				node.style.overflowX === 'hidden' || node.style.overflow === 'hidden';
+				node.style.overflowX === 'hidden' || node.style.overflow === 'hidden' || node.style.overflowX === 'scroll' || node.style.overflow === 'scroll';
 			const clipVertically =
-				node.style.overflowY === 'hidden' || node.style.overflow === 'hidden';
+				node.style.overflowY === 'hidden' || node.style.overflow === 'hidden' || node.style.overflowY === 'scroll' || node.style.overflow === 'scroll';
 
 			if (clipHorizontally || clipVertically) {
 				const x1 = clipHorizontally
@@ -120,7 +120,7 @@ const renderNodeToOutput = (
 						yogaNode.getComputedBorder(Yoga.EDGE_BOTTOM)
 					: undefined;
 
-				output.clip({x1, x2, y1, y2});
+				output.clip({x1, x2, y1, y2, offsetX: node.style.scrollOffsetX ?? 0, offsetY: node.style.scrollOffsetY ?? 0});
 				clipped = true;
 			}
 		}

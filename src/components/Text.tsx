@@ -53,6 +53,8 @@ export type Props = {
 	readonly wrap?: Styles['textWrap'];
 
 	readonly children?: ReactNode;
+
+	readonly flexShrink?: 0 | 1;
 };
 
 /**
@@ -68,6 +70,7 @@ export default function Text({
 	strikethrough = false,
 	inverse = false,
 	wrap = 'wrap',
+	flexShrink = 1,
 	children,
 }: Props) {
 	if (children === undefined || children === null) {
@@ -112,7 +115,7 @@ export default function Text({
 
 	return (
 		<ink-text
-			style={{flexGrow: 0, flexShrink: 1, flexDirection: 'row', textWrap: wrap}}
+			style={{flexGrow: 0, flexShrink, flexDirection: 'row', textWrap: wrap}}
 			internal_transform={transform}
 		>
 			{children}
