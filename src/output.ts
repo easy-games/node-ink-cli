@@ -1,6 +1,5 @@
 import sliceAnsi from 'slice-ansi';
 import stringWidth from 'string-width';
-import widestLine from 'widest-line';
 import {
 	type StyledChar,
 	styledCharsFromTokens,
@@ -133,9 +132,8 @@ export default class Output {
 				let {x, y} = operation;
 				let lines = text.split('\n');
 
-				const clip = clips.at(-1);
-
-				if (clip) {
+				for (let i = clips.length - 1; i >= 0; i--) {
+					const clip = clips[i]!;
 					const clipHorizontally =
 						typeof clip?.x1 === 'number' && typeof clip?.x2 === 'number';
 
@@ -143,24 +141,6 @@ export default class Output {
 						typeof clip?.y1 === 'number' && typeof clip?.y2 === 'number';
 					x = x - clip.offsetX;
 					y = y - clip.offsetY;
-
-					// If text is positioned outside of clipping area altogether,
-					// skip to the next operation to avoid unnecessary calculations
-					if (clipHorizontally) {
-						const width = widestLine(text);
-
-						if (x + width < clip.x1! || x > clip.x2!) {
-							continue;
-						}
-					}
-
-					if (clipVertically) {
-						const height = lines.length;
-
-						if (y + height < clip.y1! || y > clip.y2!) {
-							continue;
-						}
-					}
 
 					if (clipHorizontally) {
 						lines = lines.map(line => {

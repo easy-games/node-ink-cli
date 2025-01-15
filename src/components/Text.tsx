@@ -70,7 +70,7 @@ export default function Text({
 	strikethrough = false,
 	inverse = false,
 	wrap = 'wrap',
-	flexShrink = 1,
+	flexShrink = 0,
 	children,
 }: Props) {
 	if (children === undefined || children === null) {

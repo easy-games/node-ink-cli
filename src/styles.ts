@@ -287,21 +287,21 @@ export type Styles = {
 	 *
 	 * @default 'visible'
 	 */
-	readonly overflow?: 'visible' | 'hidden' | 'scroll';
+	readonly overflow?: 'visible' | 'hidden';
 
 	/**
 	 * Behavior for an element's overflow in horizontal direction.
 	 *
 	 * @default 'visible'
 	 */
-	readonly overflowX?: 'visible' | 'hidden' | 'scroll';
+	readonly overflowX?: 'visible' | 'hidden';
 
 	/**
 	 * Behavior for an element's overflow in vertical direction.
 	 *
 	 * @default 'visible'
 	 */
-	readonly overflowY?: 'visible' | 'hidden' | 'scroll';
+	readonly overflowY?: 'visible' | 'hidden';
 
 	readonly scrollOffsetX?: number;
 
