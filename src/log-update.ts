@@ -13,13 +13,13 @@ const create = (stream: Writable, {showCursor = false} = {}): LogUpdate => {
 	let previousOutput = '';
 	let hasHiddenCursor = false;
 
-	const render = (str: string, appendNewline = true) => {
+	const render = (str: string) => {
 		if (!showCursor && !hasHiddenCursor) {
 			cliCursor.hide();
 			hasHiddenCursor = true;
 		}
 
-		const output = appendNewline ? str + '\n' : str;
+		const output = str;
 		if (output === previousOutput) {
 			return;
 		}

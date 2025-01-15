@@ -73,8 +73,18 @@ const term = (fixture: string, args: string[] = []) => {
 	return result;
 };
 
-test.serial('do not erase screen', async t => {
+test.serial('do not erase if output less than term height', async t => {
 	const ps = term('erase', ['4']);
+	await ps.waitForExit();
+	t.false(ps.output.includes(ansiEscapes.clearTerminal));
+
+	for (const letter of ['A', 'B', 'C']) {
+		t.true(ps.output.includes(letter));
+	}
+});
+
+test.serial('do not erase if output equal to term height', async t => {
+	const ps = term('erase', ['3']);
 	await ps.waitForExit();
 	t.false(ps.output.includes(ansiEscapes.clearTerminal));
 
@@ -97,8 +107,8 @@ test.serial(
 	},
 );
 
-test.serial('erase screen', async t => {
-	const ps = term('erase', ['3']);
+test.serial('erase if output is taller than term height', async t => {
+	const ps = term('erase', ['2']);
 	await ps.waitForExit();
 	t.true(ps.output.includes(ansiEscapes.clearTerminal));
 
@@ -110,7 +120,7 @@ test.serial('erase screen', async t => {
 test.serial(
 	'erase screen where <Static> exists but interactive part is taller than viewport',
 	async t => {
-		const ps = term('erase', ['3']);
+		const ps = term('erase', ['2']);
 		await ps.waitForExit();
 		t.true(ps.output.includes(ansiEscapes.clearTerminal));
 
@@ -124,7 +134,7 @@ test.serial('clear output', async t => {
 	const ps = term('clear');
 	await ps.waitForExit();
 
-	const secondFrame = ps.output.split(ansiEscapes.eraseLines(4))[1];
+	const secondFrame = ps.output.split(ansiEscapes.eraseLines(3))[1];
 
 	for (const letter of ['A', 'B', 'C']) {
 		t.false(secondFrame?.includes(letter));
@@ -163,7 +173,7 @@ test.serial('rerender on resize', async t => {
 
 	t.is(
 		stripAnsi((stdout.write as any).firstCall.args[0] as string),
-		boxen('Test'.padEnd(8), {borderStyle: 'round'}) + '\n',
+		boxen('Test'.padEnd(8), {borderStyle: 'round'}),
 	);
 
 	t.is(stdout.listeners('resize').length, 1);
@@ -174,7 +184,7 @@ test.serial('rerender on resize', async t => {
 
 	t.is(
 		stripAnsi((stdout.write as any).lastCall.args[0] as string),
-		boxen('Test'.padEnd(6), {borderStyle: 'round'}) + '\n',
+		boxen('Test'.padEnd(6), {borderStyle: 'round'}),
 	);
 
 	unmount();
