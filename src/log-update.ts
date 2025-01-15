@@ -5,7 +5,7 @@ import cliCursor from 'cli-cursor';
 export type LogUpdate = {
 	clear: () => void;
 	done: () => void;
-	(str: string, appendNewline?: boolean): void;
+	(str: string): void;
 };
 
 const create = (stream: Writable, {showCursor = false} = {}): LogUpdate => {

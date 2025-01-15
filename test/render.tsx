@@ -147,13 +147,13 @@ test.serial(
 		const ps = term('console');
 		await ps.waitForExit();
 
-		const frames = ps.output.split(ansiEscapes.eraseLines(2)).map(line => {
+		const frames = ps.output.split(ansiEscapes.eraseLines(1)).map(line => {
 			return stripAnsi(line);
 		});
 
 		t.deepEqual(frames, [
-			'Hello World\r\n',
-			'First log\r\nHello World\r\nSecond log\r\n',
+			'Hello World',
+			'First log\r\nHello WorldSecond log\r\n',
 		]);
 	},
 );
