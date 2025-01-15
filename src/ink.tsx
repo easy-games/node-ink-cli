@@ -24,6 +24,7 @@ export type Options = {
 	debug: boolean;
 	exitOnCtrlC: boolean;
 	patchConsole: boolean;
+	disableFullScreenClear: boolean;
 	waitUntilExit?: () => Promise<void>;
 };
 
@@ -170,7 +171,7 @@ export default class Ink {
 			this.fullStaticOutput += staticOutput;
 		}
 
-		if (outputHeight >= this.options.stdout.rows) {
+		if (outputHeight >= this.options.stdout.rows && !this.options.disableFullScreenClear) {
 			this.options.stdout.write(
 				ansiEscapes.clearTerminal + this.fullStaticOutput + output,
 			);
@@ -186,7 +187,7 @@ export default class Ink {
 		}
 
 		if (!hasStaticOutput && output !== this.lastOutput) {
-			this.throttledLog(output);
+			this.throttledLog(output, !this.options.disableFullScreenClear);
 		}
 
 		this.lastOutput = output;

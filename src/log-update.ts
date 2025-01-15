@@ -5,7 +5,7 @@ import cliCursor from 'cli-cursor';
 export type LogUpdate = {
 	clear: () => void;
 	done: () => void;
-	(str: string): void;
+	(str: string, appendNewline?: boolean): void;
 };
 
 const create = (stream: Writable, {showCursor = false} = {}): LogUpdate => {
@@ -13,13 +13,13 @@ const create = (stream: Writable, {showCursor = false} = {}): LogUpdate => {
 	let previousOutput = '';
 	let hasHiddenCursor = false;
 
-	const render = (str: string) => {
+	const render = (str: string, appendNewline = true) => {
 		if (!showCursor && !hasHiddenCursor) {
 			cliCursor.hide();
 			hasHiddenCursor = true;
 		}
 
-		const output = str + '\n';
+		const output = appendNewline ? str + '\n' : str;
 		if (output === previousOutput) {
 			return;
 		}

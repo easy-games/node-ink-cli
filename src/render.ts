@@ -41,6 +41,14 @@ export type RenderOptions = {
 	 * @default true
 	 */
 	patchConsole?: boolean;
+
+	/**
+	 * Disable full screen clearing when output height is greater than terminal height.
+	 * This also disables appending a newline to the end of the output before logging.
+	 *
+	 * @default false
+	 */
+	disableFullScreenClear?: boolean;
 };
 
 export type Instance = {
@@ -78,6 +86,7 @@ const render = (
 		debug: false,
 		exitOnCtrlC: true,
 		patchConsole: true,
+		disableFullScreenClear: false,
 		...getOptions(options),
 	};
 
